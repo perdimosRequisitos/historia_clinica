@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'historia.apps.HistoriaConfig',
+    'accounts.apps.AccountsConfig',
     'tailwind',
     'theme',
     'django_browser_reload',
@@ -134,3 +135,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Custom settings
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/historia/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
