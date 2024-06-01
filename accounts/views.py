@@ -17,10 +17,12 @@ def register(request):
             login(request, user)
 
             # asignar grupo al usuario
-            group = Group.objects.get(name="DefaultGroup")
+            print(user)
+            group = Group.objects.get(name="medicos")
+            print(group)
             user.groups.add(group)
 
             return redirect("historia:index")
     else:
         form = UserRegisterForm()
-    return render(request, "historia/register.html", {"form": form})
+    return render(request, "accounts/register.html", {"form": form})

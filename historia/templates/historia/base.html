@@ -10,28 +10,18 @@
   </head>
   <body>
     <header class="bg-gray-800 text-white py-4 px-6">
-      <h1 class="text-2xl font-bold">Clinica</h1>
+      <h1 class="text-2xl font-bold">Clinica. Bienvenido {{ user }}</h1>
+      <nav>
+        <ul class="flex space-x-4">
+          <li><a href="{% url 'historia:crear_paciente' %}">Crear Paciente</a></li>
+          {% comment %} <li><a href="{% url 'historia:lista_pacientes' %}">Lista de Pacientes</a></li> {% endcomment %}
+        </ul>
+      <form action="{% url 'accounts:logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+      </form>
     </header>
-    <article class="prose lg:prose-xl">
-      <h1>Bienvenido {{ user }}</h1>
-      <p>
-        For years parents have espoused the health benefits of eating garlic
-        bread with cheese to their children, with the food earning such an
-        iconic status in our culture that kids will often dress up as warm,
-        cheesy loaf for Halloween.
-      </p>
-      <p>
-        But a recent study shows that the celebrated appetizer may be linked to
-        a series of rabies cases springing up around the country.
-      </p>
-    </article>
-    <button class="btn btn-primary">Button</button>
 
-    # boton logout
-    <form action="{% url 'accounts:logout' %}" method="post">
-      {% csrf_token %}
-      <button type="submit">Logout</button>
-    </form>
-
+    {% block content %} {% endblock %}
   </body>
 </html>
