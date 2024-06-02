@@ -22,6 +22,7 @@ class Paciente(models.Model):
     nombre = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
     id = models.AutoField(primary_key=True)
+    # identificacion = models.CharField(max_length=50, primary_key=True)
     etnia = models.CharField(max_length=50, choices=etnias_validas, default='')
     edad = models.PositiveIntegerField()
     genero = models.CharField(max_length=1, choices=generos_validos, default='')

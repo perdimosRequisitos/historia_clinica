@@ -1,12 +1,12 @@
-{% extends "historia/base.html" %}
-{% block title %}Crear Paciente{% endblock title %}
+{% extends 'historia/base.html' %}
+{% block title %}
+  Crear Paciente
+{% endblock %}
 
 {% block content %}
-
-    <form id="pacienteForm" method="POST" class="flex flex-col space-y-4 max-w-xs mx-auto">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit" class="btn">
-    </form>
-
-{% endblock content %}
+  <form id="pacienteForm" method="POST" class="flex flex-col space-y-4 max-w-xs mx-auto">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" class="btn" />
+  </form>
+{% endblock %}

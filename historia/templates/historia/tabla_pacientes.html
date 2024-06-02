@@ -1,0 +1,44 @@
+{% extends 'historia/base.html' %}
+
+{% block title %}
+  Tabla pacientes
+{% endblock %}
+
+{% block extra_head %}
+<script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous">
+</script>
+{% endblock extra_head %}
+
+{% block content %}
+  <h1 class="text-2xl font-bold">Pacientes</h1>
+
+  <form action="" class="flex items-center gap-4 mb-4">
+    <div>
+      <label for="sexo" class="block text-sm font-medium text-gray-900">Sexo</label>
+      <select name="sexo" id="filtrar_sexo" hx-get="{% url 'historia:generar_tabla_pacientes' %}"
+      hx-target="#contenedorTabla"
+        class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm">
+        <option value="">Selecciona</option>
+        {% for key_genero, genero in generos_validos.items %}
+          <option value="{{ key_genero }}">{{ genero }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="etnia" class="block text-sm font-medium text-gray-900">Sexo</label>
+      <select name="etnia" id="filtrar_sexo" hx-get="{% url 'historia:generar_tabla_pacientes' %}" hx-target="#contenedorTabla"
+        class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm">
+        <option value="">Selecciona</option>
+        {% for key_etnia, etnia in etnias_validas.items %}
+          <option value="{{ key_etnia }}">{{ etnia }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </form>
+
+  <div id="contenedorTabla" class="relative overflow-x-auto shadow-md sm:rounded-lg"
+  hx-get="{% url 'historia:generar_tabla_pacientes' %}" hx-trigger="load">
+
+  </div>
+
+  <a href="{% url 'historia:crear_paciente' %}">Crear paciente</a>
+{% endblock %}

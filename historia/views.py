@@ -2,18 +2,69 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
 from .forms import PacienteForm
+from .models import Paciente
 
 
 @login_required
 def index(request: HttpRequest):
     return render(request, "historia/base.html")
 
+
 def crear_paciente(request: HttpRequest):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = PacienteForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('historia:index')
+            return redirect("historia:tabla_pacientes")
     else:
         form = PacienteForm()
-    return render(request, 'historia/crear_paciente.html', {'form': form})
+    return render(request, "historia/crear_paciente.html", {"form": form})
+
+
+def tabla_pacientes(request: HttpRequest):
+    context = {}
+    context["generos_validos"] = Paciente.generos_validos
+    context["etnias_validas"] = Paciente.etnias_validas
+
+    context["pacientes"] = Paciente.objects.all()
+
+    filtro_sexo = request.GET.get("sexo")
+    filtro_etnia = request.GET.get("etnia")
+    if filtro_sexo:
+        context["pacientes"] = context["pacientes"].filter(genero=filtro_sexo)
+    if filtro_etnia:
+        context["pacientes"] = context["pacientes"].filter(etnia=filtro_etnia)
+
+    return render(request, "historia/tabla_pacientes.html", context)
+
+
+def editar_paciente(request: HttpRequest, pk: int):
+    paciente = Paciente.objects.get(pk=pk)
+    if request.method == "POST":
+        form = PacienteForm(request.POST, instance=paciente)
+        if form.is_valid():
+            form.save()
+            return redirect("historia:tabla_pacientes")
+    else:
+        form = PacienteForm(instance=paciente)
+    return render(request, "historia/editar_paciente.html", {"form": form})
+
+
+def eliminar_paciente(request: HttpRequest, pk: int):
+    paciente = Paciente.objects.get(pk=pk)
+    paciente.delete()
+    return redirect("historia:tabla_pacientes")
+
+
+def generar_tabla_pacientes(request: HttpRequest):
+    context = {}
+    context["pacientes"] = Paciente.objects.all()
+
+    filtro_sexo = request.GET.get("sexo")
+    filtro_etnia = request.GET.get("etnia")
+    if filtro_sexo:
+        context["pacientes"] = context["pacientes"].filter(genero=filtro_sexo)
+    if filtro_etnia:
+        context["pacientes"] = context["pacientes"].filter(etnia=filtro_etnia)
+
+    return render(request, "historia/tabla.html", context)
