@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from .forms import PacienteForm
 from .models import Paciente
 
@@ -50,6 +50,7 @@ def editar_paciente(request: HttpRequest, pk: int):
     return render(request, "historia/editar_paciente.html", {"form": form})
 
 
+@permission_required("historia.delete_paciente")
 def eliminar_paciente(request: HttpRequest, pk: int):
     paciente = Paciente.objects.get(pk=pk)
     paciente.delete()
