@@ -1,0 +1,14 @@
+{% extends 'historia/base.html' %}
+
+{% block title %}
+  Lista Historas
+{% endblock %}
+
+{% block content %}
+  {% for historia in historias %}
+    <p>{{ historia.grupo_antecedente }}
+      {{ historia.tipo_antecedente }}
+      {{ historia.fecha }}</p>
+    <a href="{% url 'historia:editar_historia' historia.id_historia %}">Editar</a>
+  {% endfor %}
+{% endblock %}

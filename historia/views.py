@@ -61,7 +61,18 @@ def crear_historia(request: HttpRequest, pk: int):
             return redirect("historia:tabla_pacientes")
     else:
         form = HistoriaMedicaForm()
-    return render(request, "historia/crear_historia.html", {"form_historia": form, "paciente": paciente})
+    return render(
+        request,
+        "historia/crear_historia.html",
+        {"form_historia": form, "paciente": paciente},
+    )
+
+
+def ver_historias(request: HttpRequest, paciente_id: str):
+    historias = HistoriaClinica.objects.all().filter(
+        paciente__identificacion=paciente_id
+    )
+    return render(request, "historia/ver_historias.html", {"historias": historias})
 
 
 def editar_historia(request: HttpRequest, pk: int):
@@ -70,7 +81,11 @@ def editar_historia(request: HttpRequest, pk: int):
         form = HistoriaMedicaForm(request.POST, instance=historia)
         if form.is_valid():
             form.save()
-            return redirect("historia:tabla_pacientes")
+            return redirect(
+                "historia:ver_historias",
+                paciente_id=historia.paciente.identificacion,
+                permanent=True,
+            )
     else:
         form = HistoriaMedicaForm(instance=historia)
     return render(request, "historia/editar_historia.html", {"form": form})

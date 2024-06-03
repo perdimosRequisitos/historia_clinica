@@ -7,6 +7,7 @@
       <th scope="col" class="px-6 py-3">Sexo</th>
       <th scope="col" class="px-6 py-3">Etnia</th>
       <th scope="col" class="px-6 py-3">Acciones</th>
+      <th scope="col" class="px-6 py-3">Historia Clinica</th>
     </tr>
   </thead>
   <tbody>
@@ -20,6 +21,9 @@
         <td>
           <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{% url 'historia:editar_paciente' paciente.id %}">Editar</a>
           <a class="font-medium text-red-600 dark:text-red-500 hover:underline" href="{% url 'historia:eliminar_paciente' paciente.id %}">Eliminar</a>
+        </td>
+        <td>
+          <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{% url 'historia:ver_historias' paciente.identificacion %}">Ver</a>
         </td>
       </tr>
     {% endfor %}

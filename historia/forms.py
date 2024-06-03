@@ -21,5 +21,5 @@ class HistoriaMedicaForm(forms.ModelForm):
         widgets = {
             "grupo_antecedente": forms.RadioSelect,
             "tipo_antecedente": forms.RadioSelect,
-            "fecha": forms.SelectDateWidget,
+            "fecha": forms.SelectDateWidget(years=range(date.today().year, 1900, -1)),
         }
