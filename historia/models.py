@@ -18,13 +18,14 @@ class Paciente(models.Model):
         "rom": "Rom",
     }
 
-    identificacion = models.CharField(max_length=20, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    identificacion = models.CharField(max_length=20, unique=True)
     nombre_completo = models.CharField(max_length=100)
-    fecha_nacimiento = models.DateField()
-    genero = models.CharField(max_length=1, choices=generos_validos, default="")
-    direccion = models.CharField(max_length=100)
+    fecha_nacimiento = models.DateField(blank=True)
+    genero = models.CharField(max_length=1, choices=generos_validos)
+    direccion = models.CharField(max_length=100, blank=True)
     telefono = models.CharField(max_length=20)
-    etnia = models.CharField(max_length=50, choices=etnias_validas, default="")
+    etnia = models.CharField(max_length=50, choices=etnias_validas)
 
     def __str__(self) -> str:
         return f"{self.nombre_completo} ({self.identificacion})"
@@ -38,7 +39,7 @@ class Paciente(models.Model):
         return date.today().year - self.fecha_nacimiento.year
 
 
-class Historia_Medica(models.Model):
+class HistoriaClinica(models.Model):
     grupos_antecedentes = {
         "personal": "Personal",
         "familiar": "Familiar",
@@ -52,12 +53,8 @@ class Historia_Medica(models.Model):
     }
 
     id_historia = models.AutoField(primary_key=True)
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
-    grupo_antecedente = models.CharField(
-        max_length=50, choices=grupos_antecedentes, default=""
-    )
-    tipo_antecedente = models.CharField(
-        max_length=50, choices=tipo_antecedentes, default=""
-    )
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, to_field='identificacion')
+    grupo_antecedente = models.CharField(max_length=50, choices=grupos_antecedentes)
+    tipo_antecedente = models.CharField(max_length=50, choices=tipo_antecedentes)
     fecha = models.DateField()
     descripcion = models.TextField()
