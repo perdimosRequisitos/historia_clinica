@@ -53,8 +53,12 @@ class HistoriaClinica(models.Model):
     }
 
     id_historia = models.AutoField(primary_key=True)
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, to_field='identificacion')
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, to_field='identificacion', 
+    editable=True)
     grupo_antecedente = models.CharField(max_length=50, choices=grupos_antecedentes)
     tipo_antecedente = models.CharField(max_length=50, choices=tipo_antecedentes)
     fecha = models.DateField()
     descripcion = models.TextField()
+
+    def __str__(self) -> str:
+        return f"historia {self.paciente.nombre_completo}"

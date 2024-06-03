@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required, permission_required
-from .forms import PacienteForm
-from .models import Paciente
+from .forms import PacienteForm, HistoriaMedicaForm
+from .models import Paciente, HistoriaClinica
 
 
 @login_required
@@ -48,6 +48,32 @@ def editar_paciente(request: HttpRequest, pk: int):
     else:
         form = PacienteForm(instance=paciente)
     return render(request, "historia/editar_paciente.html", {"form": form})
+
+
+def crear_historia(request: HttpRequest, pk: int):
+    paciente = Paciente.objects.get(pk=pk)
+    if request.method == "POST":
+        form = HistoriaMedicaForm(request.POST)
+        if form.is_valid():
+            historia = form.save(commit=False)
+            historia.paciente = paciente
+            historia.save()
+            return redirect("historia:tabla_pacientes")
+    else:
+        form = HistoriaMedicaForm()
+    return render(request, "historia/crear_historia.html", {"form_historia": form, "paciente": paciente})
+
+
+def editar_historia(request: HttpRequest, pk: int):
+    historia = HistoriaClinica.objects.get(pk=pk)
+    if request.method == "POST":
+        form = HistoriaMedicaForm(request.POST, instance=historia)
+        if form.is_valid():
+            form.save()
+            return redirect("historia:tabla_pacientes")
+    else:
+        form = HistoriaMedicaForm(instance=historia)
+    return render(request, "historia/editar_historia.html", {"form": form})
 
 
 @permission_required("historia.delete_paciente")

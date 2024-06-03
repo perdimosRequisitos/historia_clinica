@@ -17,6 +17,7 @@ class HistoriaMedicaForm(forms.ModelForm):
     class Meta:
         model = HistoriaClinica
         fields = "__all__"
+        exclude = ["paciente"]
         widgets = {
             "grupo_antecedente": forms.RadioSelect,
             "tipo_antecedente": forms.RadioSelect,

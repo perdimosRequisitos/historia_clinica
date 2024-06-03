@@ -1,19 +1,16 @@
 {% extends 'historia/base.html' %}
 
 {% block title %}
-  Editar pacientes
+  Crear Historia
 {% endblock %}
 
 {% block content %}
+  <h1 class="text-2xl font-bold">Crear historia clinica</h1>
   {{ paciente }}
-
-  <h1 class="text-2xl font-bold">Editar paciente</h1>
-
 
   <form method="post" class="flex flex-col space-y-4 max-w-xs mx-auto">
     {% csrf_token %}
-    {{ form }}
+    {{ form_historia }}
     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Guardar</button>
   </form>
-
 {% endblock %}
