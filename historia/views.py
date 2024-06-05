@@ -69,9 +69,7 @@ def crear_historia(request: HttpRequest, pk: int):
 
 
 def ver_historias(request: HttpRequest, paciente_id: str):
-    historias = HistoriaClinica.objects.all().filter(
-        paciente__identificacion=paciente_id
-    )
+    historias = HistoriaClinica.objects.filter(paciente__identificacion=paciente_id)
     return render(request, "historia/ver_historias.html", {"historias": historias})
 
 
@@ -102,11 +100,11 @@ def generar_tabla_pacientes(request: HttpRequest):
     context = {}
     context["pacientes"] = Paciente.objects.all()
 
-    filtro_sexo = request.GET.get("sexo")
-    filtro_etnia = request.GET.get("etnia")
-    if filtro_sexo:
-        context["pacientes"] = context["pacientes"].filter(genero=filtro_sexo)
-    if filtro_etnia:
-        context["pacientes"] = context["pacientes"].filter(etnia=filtro_etnia)
+    identificacion = request.GET.get("identificacion")
+
+    if identificacion:
+        context["pacientes"] = context["pacientes"].filter(
+            identificacion__startswith=identificacion
+        )
 
     return render(request, "historia/tabla.html", context)
