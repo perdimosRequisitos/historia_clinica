@@ -13,6 +13,7 @@ def index(request: HttpRequest):
 def crear_paciente(request: HttpRequest):
     if request.method == "POST":
         form = PacienteForm(request.POST)
+        print(form.errors)
         if form.is_valid():
             form.save()
             return redirect("historia:tabla_pacientes")
@@ -70,7 +71,11 @@ def crear_historia(request: HttpRequest, pk: int):
 
 def ver_historias(request: HttpRequest, paciente_id: str):
     historias = HistoriaClinica.objects.filter(paciente__identificacion=paciente_id)
-    return render(request, "historia/ver_historias.html", {"historias": historias})
+    context = {
+        "historias": historias,
+        "paciente": Paciente.objects.get(identificacion=paciente_id),
+    }
+    return render(request, "historia/ver_historias.html", context)
 
 
 def editar_historia(request: HttpRequest, pk: int):

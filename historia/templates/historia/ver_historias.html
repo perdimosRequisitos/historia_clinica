@@ -5,10 +5,33 @@
 {% endblock %}
 
 {% block content %}
-  {% for historia in historias %}
-    <p>{{ historia.grupo_antecedente }}
-      {{ historia.tipo_antecedente }}
-      {{ historia.fecha }}</p>
-    <a href="{% url 'historia:editar_historia' historia.id_historia %}">Editar</a>
-  {% endfor %}
+  <main class="container mx-auto p-4">
+    <ul class="menu bg-base-200 rounded-box">
+      <li class="menu-title text-gray-400">Antecedentes de {{ paciente.nombre_completo }}</li>
+      {% for historia in historias %}
+        <li>
+          <a href="{% url 'historia:editar_historia' historia.id_historia %}">
+            <ul>
+              <li>{{ forloop.counter }}.</li>
+              <li>
+                <p>
+                  <span class="font-bold">Grupo antecedente:</span>{{ historia.grupo_antecedente }}
+                </p>
+              </li>
+              <li>
+                <p>
+                  <span class="font-bold">Tipo antecedente:</span>{{ historia.tipo_antecedente }}
+                </p>
+              </li>
+              <li>
+                <p>
+                  <span class="font-bold">Fecha:</span>{{ historia.fecha }}
+                </p>
+              </li>
+            </ul>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </main>
 {% endblock %}
