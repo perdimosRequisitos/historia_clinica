@@ -20,6 +20,8 @@ class PacienteForm(forms.ModelForm):
             "genero": {"required": "Por favor, seleccione un género"},
             "etnia": {"required": "Por favor, seleccione una etnia"},
         }
+    
+    template_name = "historia/custom_form.html"
 
 
 class HistoriaMedicaForm(forms.ModelForm):
