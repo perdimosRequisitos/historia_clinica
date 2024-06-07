@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.errorlist {
+  @apply text-error;
+}
+
+.form-control{
+  @apply flex flex-col items-center;
+}

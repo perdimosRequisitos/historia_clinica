@@ -5,12 +5,14 @@ from datetime import date
 # Create your models here.
 class Paciente(models.Model):
     generos_validos = {
+        "": "Seleccione un género",
         "M": "Masculino",
         "F": "Femenino",
     }
 
     # Indigenas, Afrocolombianos, Raizales, Rom
     etnias_validas = {
+        "": "Seleccione una etnia",
         "ninguna": "Ninguna",
         "indigena": "Indígena",
         "afrocolombiano": "Afrocolombiano",
@@ -41,11 +43,13 @@ class Paciente(models.Model):
 
 class HistoriaClinica(models.Model):
     grupos_antecedentes = {
+        "": "Seleccione un grupo",
         "personal": "Personal",
         "familiar": "Familiar",
     }
 
     tipo_antecedentes = {
+        "": "Seleccione un tipo",
         "quirurgico": "Quirúrgico",
         "alergico": "Alergico",
         "traumatico": "Traumático",
@@ -53,8 +57,9 @@ class HistoriaClinica(models.Model):
     }
 
     id_historia = models.AutoField(primary_key=True)
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, to_field='identificacion', 
-    editable=True)
+    paciente = models.ForeignKey(
+        Paciente, on_delete=models.CASCADE, to_field="identificacion", editable=True
+    )
     grupo_antecedente = models.CharField(max_length=50, choices=grupos_antecedentes)
     tipo_antecedente = models.CharField(max_length=50, choices=tipo_antecedentes)
     fecha = models.DateField()
