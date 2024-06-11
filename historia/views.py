@@ -3,6 +3,7 @@ from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required, permission_required
 from .forms import PacienteForm, HistoriaMedicaForm
 from .models import Paciente, HistoriaClinica
+from django.core.exceptions import PermissionDenied
 
 
 @login_required
@@ -94,7 +95,7 @@ def editar_historia(request: HttpRequest, pk: int):
     return render(request, "historia/editar_historia.html", {"form": form})
 
 
-@permission_required("historia.delete_paciente")
+@permission_required("historia.delete_paciente", raise_exception=True)
 def eliminar_paciente(request: HttpRequest, pk: int):
     paciente = Paciente.objects.get(pk=pk)
     paciente.delete()

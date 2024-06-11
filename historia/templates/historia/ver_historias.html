@@ -9,7 +9,7 @@
     <ul class="menu bg-base-200 rounded-box">
       <li class="menu-title text-gray-400">Antecedentes de {{ paciente.nombre_completo }}</li>
       {% for historia in historias %}
-        <li>
+        <li class="{% if not historia.habilitado %} disabled {% endif %}">
           <a href="{% url 'historia:editar_historia' historia.id_historia %}">
             <ul>
               <li>{{ forloop.counter }}.</li>

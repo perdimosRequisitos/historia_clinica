@@ -64,6 +64,7 @@ class HistoriaClinica(models.Model):
     tipo_antecedente = models.CharField(max_length=50, choices=tipo_antecedentes)
     fecha = models.DateField()
     descripcion = models.TextField()
+    habilitado = models.BooleanField(default=True)
 
     def __str__(self) -> str:
         return f"historia {self.paciente.nombre_completo}"
