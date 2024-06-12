@@ -1,0 +1,20 @@
+databases:
+  - name: clinicadb
+    plan: free
+
+services:
+  - type: web
+    plan: free
+    name: clinica
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "python -m gunicorn historia_clinica.asgi:application -k uvicorn.workers.UvicornWorker"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: clinicadb
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
