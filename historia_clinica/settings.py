@@ -27,7 +27,6 @@ SECRET_KEY = os.environ.get("SECRET_KEY", default=local_key)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = "RENDER" not in os.environ
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -102,10 +101,9 @@ WSGI_APPLICATION = "historia_clinica.wsgi.application"
 #     }
 # }
 
+data_url = "postgres://clinicadb_lcwl_user:Ccmvtnn04dYg8a97xgvRcEXCeRa11Dsl@dpg-cpkevpsf7o1s73co0sbg-a.oregon-postgres.render.com/clinicadb_lcwl"
 DATABASES = {
-    "default": dj_database_url.config(
-        default="postgresql://postgres:postgres@localhost:5432/mysite", conn_max_age=600
-    )
+	"default": dj_database_url.parse(data_url)
 }
 
 
