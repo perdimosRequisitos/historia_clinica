@@ -16,6 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from log import logger
+
+logger.info("Se ha cargado el módulo de URLs")
 
 urlpatterns = [
     path('admin/', admin.site.urls),

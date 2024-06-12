@@ -1,6 +1,9 @@
 from django.urls import path
 
 from . import views
+from log import logger
+
+logger.info("Se ha cargado el módulo de URLs")
 
 app_name = "historia"
 urlpatterns = [
