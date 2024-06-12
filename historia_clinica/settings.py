@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 import dotenv
+import dj_database_url
 
 dotenv.load_dotenv()
 
@@ -45,7 +46,7 @@ INSTALLED_APPS = [
     "tailwind",
     "theme",
     "django_browser_reload",
-    "whitenoise.runserver_nostatic"
+    "whitenoise.runserver_nostatic",
 ]
 
 TAILWIND_APP_NAME = "theme"
@@ -93,10 +94,9 @@ WSGI_APPLICATION = "historia_clinica.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.config(
+        default="postgresql://postgres:postgres@localhost:5432/mysite", conn_max_age=600
+    )
 }
 
 
@@ -138,7 +138,8 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "theme/static"]
 
-
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Default primary key field type
