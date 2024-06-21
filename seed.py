@@ -1,5 +1,9 @@
+from django.contrib.auth import authenticate
 from historia.models import Paciente, HistoriaClinica
 from faker import Faker
+
+
+user = authenticate(username="Samuel", password="micontraseña123")
 
 fake = Faker(locale="es_CO")
 
@@ -13,6 +17,7 @@ paciente = Paciente.objects.create(
     etnia=fake.random_element(
         elements=("ninguna", "indigena", "afrocolombiano", "raizal", "rom")
     ),
+    medico=user,
 )
 
 historia = HistoriaClinica.objects.create(

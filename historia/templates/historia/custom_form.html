@@ -1,7 +1,19 @@
 {% for field in form %}
-  <div class="form-control">
-    {{ field.errors }}
-    {{ field.label_tag }}
-    <p>{{ field }}</p>
+{{ field.errors }}
+  <div class="mb-4">
+    <p>
+      {{ field.label_tag }}
+    </p>
+    <p>
+      {{ field }}
+    </p>
   </div>
 {% endfor %}
+
+{% comment %}
+
+{{ field.errors }}
+<label for="{{ field.id_for_label }}" class="my-label-css-class">{{ field.label }}</label>
+<input id="{{ field.id_for_label }}" class="my-field-css-class" type="text" name="{{ field.html_name }}" value="{{ field.value|default:'' }}" />
+
+{% endcomment %}

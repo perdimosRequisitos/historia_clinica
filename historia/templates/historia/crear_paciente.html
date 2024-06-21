@@ -4,9 +4,12 @@
 {% endblock %}
 
 {% block content %}
-  <form id="pacienteForm" method="POST" class="flex flex-col space-y-4 max-w-xs mx-auto">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit" class="btn" />
-  </form>
+
+<div class="w-full max-w-80 mx-auto my-5"/>
+<form id="pacienteForm" method="POST" class="bg-base-200 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+  {% csrf_token %}
+  {{ form }}
+  <input type="submit" value="Submit" class="btn btn-primary" />
+</form>
+</div>
 {% endblock %}

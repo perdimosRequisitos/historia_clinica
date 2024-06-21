@@ -9,3 +9,15 @@
 .form-control{
   @apply flex flex-col items-center;
 }
+
+.daisyui-select {
+  @apply select select-bordered w-full max-w-xs
+}
+
+.daisyui-textarea {
+  @apply textarea textarea-bordered w-full max-w-xs
+}
+
+.daisyui-checkbox {
+  @apply checkbox checkbox-md
+}

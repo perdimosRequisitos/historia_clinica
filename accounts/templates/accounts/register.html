@@ -1,12 +1,19 @@
-{% extends 'historia/base.html' %}
-
-  {% block content %}
-    <div class="container flex flex-col items-center ">
-      <h2 class="text-2xl font-bold">Register</h2>
+{% load tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro</title>
+    {% tailwind_css %}
+  </head>
+  <body>
+    <div class="container flex flex-col items-center">
+      <h2 class="text-2xl font-bold">Registro</h2>
       <form method="post" class="flex flex-col items-center justify-center space-y-3">
         {% csrf_token %}
         <div class="flex flex-col items-center justify-center">
-          <label for="id_username">Username:</label>
+          <label for="id_username">Nombre de usuario:</label>
           {{ form.username }}
         </div>
         <div class="flex flex-col items-center justify-center">
@@ -14,15 +21,26 @@
           {{ form.email }}
         </div>
         <div class="flex flex-col items-center justify-center">
-          <label for="id_password1">Password:</label>
+          <label for="id_password1">Contraseña:</label>
           {{ form.password1 }}
         </div>
         <div class="flex flex-col items-center justify-center">
-          <label for="id_password2">Confirm Password:</label>
+          <label for="id_password2">Confirmar Contraseña:</label>
           {{ form.password2 }}
         </div>
-        <button type="submit" class="btn">Register</button>
+
+        {% if form.errors %}
+          <div class="flex flex-col items-center justify-center" role="alert">
+            <strong class="font-bold">¡Ups!</strong>
+            <span class="block sm:inline">{{ form.errors }}</span>
+          </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+
+        <p>¿Ya tienes una cuenta? Inicia sesión</p>
+        <a href="{% url 'accounts:login' %}" class="btn btn-neutral">Iniciar sesión</a>
       </form>
     </div>
-
-{% endblock %}
+  </body>
+</html>

@@ -11,35 +11,33 @@ def index(request: HttpRequest):
     return render(request, "historia/base.html")
 
 
+@permission_required("historia.view_paciente", raise_exception=True)
+def tabla_pacientes(request: HttpRequest):
+    # context = {}
+    # context["pacientes"] = Paciente.objects.all()
+    # context["pacientes"] = Paciente.objects.filter(medico=request.user)
+    # print(request.user)
+    # context["pacientes"]
+
+    return render(request, "historia/tabla_pacientes.html")
+
+
+@permission_required("historia.add_paciente", raise_exception=True)
 def crear_paciente(request: HttpRequest):
     if request.method == "POST":
         form = PacienteForm(request.POST)
         print(form.errors)
         if form.is_valid():
-            form.save()
+            paciente: Paciente = form.save(commit=False)
+            paciente.medico = request.user
+            paciente.save()
             return redirect("historia:tabla_pacientes")
     else:
         form = PacienteForm()
     return render(request, "historia/crear_paciente.html", {"form": form})
 
 
-def tabla_pacientes(request: HttpRequest):
-    context = {}
-    context["generos_validos"] = Paciente.generos_validos
-    context["etnias_validas"] = Paciente.etnias_validas
-
-    context["pacientes"] = Paciente.objects.all()
-
-    filtro_sexo = request.GET.get("sexo")
-    filtro_etnia = request.GET.get("etnia")
-    if filtro_sexo:
-        context["pacientes"] = context["pacientes"].filter(genero=filtro_sexo)
-    if filtro_etnia:
-        context["pacientes"] = context["pacientes"].filter(etnia=filtro_etnia)
-
-    return render(request, "historia/tabla_pacientes.html", context)
-
-
+@permission_required("historia.change_paciente", raise_exception=True)
 def editar_paciente(request: HttpRequest, pk: int):
     paciente = Paciente.objects.get(pk=pk)
     if request.method == "POST":
@@ -52,6 +50,7 @@ def editar_paciente(request: HttpRequest, pk: int):
     return render(request, "historia/editar_paciente.html", {"form": form})
 
 
+@permission_required("historia.add_historiaclinica", raise_exception=True)
 def crear_historia(request: HttpRequest, pk: int):
     paciente = Paciente.objects.get(pk=pk)
     if request.method == "POST":
@@ -60,7 +59,9 @@ def crear_historia(request: HttpRequest, pk: int):
             historia = form.save(commit=False)
             historia.paciente = paciente
             historia.save()
-            return redirect("historia:tabla_pacientes")
+            return redirect(
+                "historia:ver_historias", paciente_id=paciente.identificacion
+            )
     else:
         form = HistoriaMedicaForm()
     return render(
@@ -70,6 +71,7 @@ def crear_historia(request: HttpRequest, pk: int):
     )
 
 
+@permission_required("historia.view_historiaclinica", raise_exception=True)
 def ver_historias(request: HttpRequest, paciente_id: str):
     historias = HistoriaClinica.objects.filter(paciente__identificacion=paciente_id)
     context = {
@@ -79,8 +81,10 @@ def ver_historias(request: HttpRequest, paciente_id: str):
     return render(request, "historia/ver_historias.html", context)
 
 
+@permission_required("historia.change_historiaclinica", raise_exception=True)
 def editar_historia(request: HttpRequest, pk: int):
     historia = HistoriaClinica.objects.get(pk=pk)
+    paciente = historia.paciente
     if request.method == "POST":
         form = HistoriaMedicaForm(request.POST, instance=historia)
         if form.is_valid():
@@ -92,7 +96,9 @@ def editar_historia(request: HttpRequest, pk: int):
             )
     else:
         form = HistoriaMedicaForm(instance=historia)
-    return render(request, "historia/editar_historia.html", {"form": form})
+    return render(
+        request, "historia/editar_historia.html", {"form": form, "paciente": paciente}
+    )
 
 
 @permission_required("historia.delete_paciente", raise_exception=True)
@@ -104,8 +110,8 @@ def eliminar_paciente(request: HttpRequest, pk: int):
 
 def generar_tabla_pacientes(request: HttpRequest):
     context = {}
-    context["pacientes"] = Paciente.objects.all()
-
+    # context["pacientes"] = Paciente.objects.all()
+    context["pacientes"] = Paciente.objects.filter(medico=request.user)
     identificacion = request.GET.get("identificacion")
 
     if identificacion:

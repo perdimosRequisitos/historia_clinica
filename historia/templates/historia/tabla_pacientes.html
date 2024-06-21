@@ -22,7 +22,5 @@
     </form>
 
     <div id="contenedorTabla" class="relative overflow-x-auto shadow-md sm:rounded-lg" hx-get="{% url 'historia:generar_tabla_pacientes' %}" hx-trigger="load"></div>
-
-    <a href="{% url 'historia:crear_paciente' %}">Crear paciente</a>
   </main>
 {% endblock %}

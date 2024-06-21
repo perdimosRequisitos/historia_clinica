@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "clinica",
+            "database": "${workspaceFolder:historia_clinica}/db.sqlite3"
+        }
+    ]
+}

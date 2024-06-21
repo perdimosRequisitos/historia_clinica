@@ -1,14 +1,36 @@
-{% extends 'historia/base.html' %}
+{% load tailwind_tags %}
 
-  {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar sesión</title>
+    {% tailwind_css %}
+  </head>
+  <body>
     <main class="flex flex-col items-center justify-center space-y-3">
-      <h2 class="text-2xl font-bold">Login</h2>
+      <h2 class="text-2xl font-bold">Iniciar sesión</h2>
       <form method="post" class="flex flex-col items-center justify-center space-y-4 max-w-xs mx-auto">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Login</button>
-      </form>
-    <a href="{% url 'accounts:register' %}" class="btn btn-neutral">Register</a>
-    </main>
 
-{% endblock %}
+        <div class="flex flex-col items-center justify-center">
+          <label for="id_username">Nombre de usuario:</label>
+          {{ form.username }}
+        </div>
+        <div class="flex flex-col items-center justify-center">
+          <label for="id_password">Contraseña:</label>
+          {{ form.password }}
+        </div>
+        {{ field.errors }}
+
+
+        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+      </form>
+      
+      <p>¿No tienes una cuenta? Crea una</p>
+
+      <a href="{% url 'accounts:register' %}" class="btn btn-neutral">Registrarse</a>
+    </main>
+  </body>
+</html>
