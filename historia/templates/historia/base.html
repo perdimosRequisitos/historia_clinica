@@ -29,9 +29,7 @@
       <div class="navbar-end space-x-4">
         <div>
           Usuario:
-          <span class="font-bold">
-            <a href="{% url 'accounts:profile' %}">{{ user }}</a>
-          </span>
+          <span class="font-bold"><a href="{% url 'accounts:profile' %}">{{ user }}</a></span>
         </div>
 
         {% if user.is_authenticated %}
@@ -64,7 +62,7 @@
     if (currentTheme === 'light') {
       document.documentElement.setAttribute('data-theme', 'light')
     }
-
+    
     themeToggle.addEventListener('click', () => {
       if (document.documentElement.getAttribute('data-theme') === 'dark') {
         document.documentElement.setAttribute('data-theme', 'light')
@@ -73,6 +71,19 @@
         document.documentElement.setAttribute('data-theme', 'dark')
         localStorage.setItem('theme', 'dark')
       }
+    })
+  </script>
+
+  <script>
+    // Todos los boton con la clase boton_confirmar deben mostrar un mensaje de confirmación
+    const botones = document.querySelectorAll('.boton_confirmar')
+    botones.forEach((boton) => {
+      boton.addEventListener('click', function (event) {
+        const confirmacion = confirm('¿Está seguro de que desea guardar los cambios?')
+        if (!confirmacion) {
+          event.preventDefault()
+        }
+      })
     })
   </script>
 </html>

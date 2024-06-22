@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required, permission_required
-from .forms import PacienteForm, HistoriaMedicaForm
+from .forms import EditarHistoriaClinicaForm, PacienteForm, CrearHistoriaClinicaForm
 from .models import Paciente, HistoriaClinica
 from django.core.exceptions import PermissionDenied
 
@@ -54,7 +54,7 @@ def editar_paciente(request: HttpRequest, pk: int):
 def crear_historia(request: HttpRequest, pk: int):
     paciente = Paciente.objects.get(pk=pk)
     if request.method == "POST":
-        form = HistoriaMedicaForm(request.POST)
+        form = CrearHistoriaClinicaForm(request.POST)
         if form.is_valid():
             historia = form.save(commit=False)
             historia.paciente = paciente
@@ -63,7 +63,7 @@ def crear_historia(request: HttpRequest, pk: int):
                 "historia:ver_historias", paciente_id=paciente.identificacion
             )
     else:
-        form = HistoriaMedicaForm()
+        form = CrearHistoriaClinicaForm()
     return render(
         request,
         "historia/crear_historia.html",
@@ -86,7 +86,7 @@ def editar_historia(request: HttpRequest, pk: int):
     historia = HistoriaClinica.objects.get(pk=pk)
     paciente = historia.paciente
     if request.method == "POST":
-        form = HistoriaMedicaForm(request.POST, instance=historia)
+        form = EditarHistoriaClinicaForm(request.POST, instance=historia)
         if form.is_valid():
             form.save()
             return redirect(
@@ -95,7 +95,7 @@ def editar_historia(request: HttpRequest, pk: int):
                 permanent=True,
             )
     else:
-        form = HistoriaMedicaForm(instance=historia)
+        form = EditarHistoriaClinicaForm(instance=historia)
     return render(
         request, "historia/editar_historia.html", {"form": form, "paciente": paciente}
     )

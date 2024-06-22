@@ -22,10 +22,14 @@ class Paciente(models.Model):
     }
 
     id = models.AutoField(primary_key=True)
-    identificacion = models.CharField(max_length=20, unique=True, verbose_name="Identificación")
+    identificacion = models.CharField(
+        max_length=20, unique=True, verbose_name="Identificación"
+    )
     nombre_completo = models.CharField(max_length=100)
     fecha_nacimiento = models.DateField(blank=True)
-    genero = models.CharField(max_length=1, choices=generos_validos, verbose_name="Género")
+    genero = models.CharField(
+        max_length=1, choices=generos_validos, verbose_name="Género"
+    )
     direccion = models.CharField(max_length=100, blank=True, verbose_name="Dirección")
     telefono = models.CharField(max_length=20, verbose_name="Teléfono")
     etnia = models.CharField(max_length=50, choices=etnias_validas)
@@ -68,6 +72,10 @@ class HistoriaClinica(models.Model):
     fecha = models.DateField()
     descripcion = models.TextField(verbose_name="Descripción")
     habilitado = models.BooleanField(default=True)
+
+    justificacion_modificacion = models.TextField(
+        blank=True, null=True, verbose_name="Justificación de modificación"
+    )
 
     def __str__(self) -> str:
         return f"historia {self.paciente.nombre_completo}"

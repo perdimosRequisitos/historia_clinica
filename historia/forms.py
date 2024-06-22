@@ -37,7 +37,7 @@ class PacienteForm(forms.ModelForm):
 
 
 
-class HistoriaMedicaForm(forms.ModelForm):
+class CrearHistoriaClinicaForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -51,6 +51,21 @@ class HistoriaMedicaForm(forms.ModelForm):
     class Meta:
         model = HistoriaClinica
         fields = "__all__"
+        exclude = ["paciente", "justificacion_modificacion"]
+        widgets = {
+            # "grupo_antecedente": forms.RadioSelect,
+            # "tipo_antecedente": forms.RadioSelect,
+            "fecha": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
+            "descripcion": forms.Textarea(attrs={"rows": 5, "cols": 25}),
+        }
+
+    template_name = "historia/custom_form.html"
+
+
+class EditarHistoriaClinicaForm(CrearHistoriaClinicaForm):
+    class Meta:
+        model = HistoriaClinica
+        fields = "__all__"
         exclude = ["paciente"]
         widgets = {
             # "grupo_antecedente": forms.RadioSelect,
@@ -58,5 +73,15 @@ class HistoriaMedicaForm(forms.ModelForm):
             "fecha": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
             "descripcion": forms.Textarea(attrs={"rows": 5, "cols": 25}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["justificacion_modificacion"].widget.attrs.update(
+            {
+                "class": "daisyui-textarea",
+                "rows": "5",
+                "cols": "25",
+             }
+        )
 
     template_name = "historia/custom_form.html"
