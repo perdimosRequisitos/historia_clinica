@@ -73,8 +73,8 @@ class HistoriaClinica(models.Model):
     descripcion = models.TextField(verbose_name="Descripción")
     habilitado = models.BooleanField(default=True)
 
-    justificacion_modificacion = models.TextField(
-        blank=True, null=True, verbose_name="Justificación de modificación"
+    anotacion = models.TextField(
+        blank=True, null=True, verbose_name="Anotación"
     )
 
     def __str__(self) -> str:

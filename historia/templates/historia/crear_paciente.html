@@ -9,7 +9,8 @@
 <form id="pacienteForm" method="POST" class="bg-base-200 shadow-md rounded px-8 pt-6 pb-8 mb-4">
   {% csrf_token %}
   {{ form }}
-  <input type="submit" value="Submit" class="btn btn-primary boton_confirmar"/>
+  {% comment %} <input type="submit" value="Submit" class="btn btn-primary boton_confirmar"/> {% endcomment %}
+  <button type="submit" class="btn btn-primary boton_confirmar">Guardar</button>
 </form>
 </div>
 {% endblock %}

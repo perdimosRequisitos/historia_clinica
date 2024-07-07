@@ -51,7 +51,7 @@ class CrearHistoriaClinicaForm(forms.ModelForm):
     class Meta:
         model = HistoriaClinica
         fields = "__all__"
-        exclude = ["paciente", "justificacion_modificacion"]
+        exclude = ["paciente", "anotacion"]
         widgets = {
             # "grupo_antecedente": forms.RadioSelect,
             # "tipo_antecedente": forms.RadioSelect,
@@ -76,7 +76,7 @@ class EditarHistoriaClinicaForm(CrearHistoriaClinicaForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["justificacion_modificacion"].widget.attrs.update(
+        self.fields["anotacion"].widget.attrs.update(
             {
                 "class": "daisyui-textarea",
                 "rows": "5",
